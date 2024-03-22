@@ -29,8 +29,8 @@ USER_AGENT = {
 }
 
 SYSTEM_PROXY = {
-    "http": "socks5h://127.0.0.1:6153",
-    "https": "socks5h://127.0.0.1:6153"
+    "http": "socks5h://127.0.0.1:7890",
+    "https": "socks5h://127.0.0.1:7890"
 }
 
 
