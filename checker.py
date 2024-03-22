@@ -163,8 +163,23 @@ def unlock_status_checker() -> dict:
         else:
             print("Disney+:\t\t\t\tNo")
 
+    try:
+        _openai_status_ = __openai_status__()
+    except Exception as e:
+        _openai_status_ = False
+
+    try:
+        _claude_status_ = __claude_status__()
+    except Exception as e:
+        _claude_status_ = False
+
+    try:
+        _netflix_status_ = __netflix_status__()
+    except Exception as e:
+        _netflix_status_ = False
+
     unlock_result = {
-        "openai": __openai_status__(),
+        "openai": _openai_status_,
         "claude": __claude_status__(),
         "netflix": __netflix_status__(),
         # "disney": __disney_plus__()
