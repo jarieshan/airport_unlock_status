@@ -1,0 +1,14 @@
+[Unit]
+Description=Uvicorn Checker App
+After=network.target
+
+[Service]
+WorkingDirectory=/root/airport_unlock_status
+ExecStart=/usr/bin/env uvicorn checker:app --host 0.0.0.0 --port 6900
+Restart=always
+# 禁用日志
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target

@@ -1,27 +1,16 @@
 import re
-import os
 import json
-import sys
-import time
-
 import requests
 
 from loguru import logger
 from fastapi import FastAPI, Request, HTTPException, Depends
 from apscheduler.schedulers.background import BackgroundScheduler
 
-logger.add("logs/{time}.log", rotation="1 day", retention="7 days", level="DEBUG")
+logger.add("/var/logs/airport_unlock_status/{time}.log", rotation="1 day", retention="7 days", level="DEBUG")
 
 app = FastAPI()
 
 UNLOCK_RESULT_CACHE = None
-CONN_INFO = os.environ.get("CONN_INFO", "")
-
-if CONN_INFO:
-    logger.info("Get Connection Info Success")
-else:
-    logger.warning("Failed to get Connection Info.")
-    sys.exit(-1)
 
 scheduler = BackgroundScheduler()
 
@@ -188,8 +177,6 @@ def unlock_status_checker() -> dict:
 def update_unlock_status_cache() -> None:
     global UNLOCK_RESULT_CACHE
     UNLOCK_RESULT_CACHE = {
-        "timestamp": int(time.time()),
-        "connection_info": CONN_INFO,
         "unlock_status": unlock_status_checker()
     }
 
