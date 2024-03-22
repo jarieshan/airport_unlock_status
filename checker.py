@@ -10,7 +10,7 @@ from loguru import logger
 from fastapi import FastAPI, Request, HTTPException, Depends
 from apscheduler.schedulers.background import BackgroundScheduler
 
-logger.add("logs_{time}.log", rotation="1 day", retention="7 days", level="DEBUG")
+logger.add("logs/{time}.log", rotation="1 day", retention="7 days", level="DEBUG")
 
 app = FastAPI()
 
