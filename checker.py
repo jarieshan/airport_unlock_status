@@ -16,10 +16,9 @@ app = FastAPI()
 
 UNLOCK_RESULT_CACHE = None
 CONN_INFO = os.environ.get("CONN_INFO", "")
-REGION = os.environ.get("REGION", "")
 
-if CONN_INFO and REGION:
-    logger.info(f"Get Connection Info Success, Region: {REGION}")
+if CONN_INFO:
+    logger.info("Get Connection Info Success")
 else:
     logger.warning("Failed to get Connection Info.")
     sys.exit(-1)
@@ -190,7 +189,6 @@ def update_unlock_status_cache() -> None:
     global UNLOCK_RESULT_CACHE
     UNLOCK_RESULT_CACHE = {
         "timestamp": int(time.time()),
-        "region": REGION,
         "connection_info": CONN_INFO,
         "unlock_status": unlock_status_checker()
     }
