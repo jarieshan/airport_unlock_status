@@ -21,8 +21,13 @@ USER_AGENT = {
 }
 
 SYSTEM_PROXY = {
-    "http": "socks5h://127.0.0.1:7890",
-    "https": "socks5h://127.0.0.1:7890"
+    "http": "socks5://127.0.0.1:7890",
+    "https": "socks5://127.0.0.1:7890"
+}
+
+HTTP_PROXY = {
+    "http": "http://127.0.0.1:7891",
+    "https": "http://127.0.0.1:7891"
 }
 
 
@@ -60,7 +65,7 @@ def unlock_status_checker() -> dict:
                        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0'}
 
         try:
-            website_response = session.get(website_url, headers=website_headers)
+            website_response = session.get(website_url, headers=website_headers, proxies=HTTP_PROXY)
             ios_response = session.get(ios_url, headers=ios_headers)
 
             _unlock_status_ = False if "unsupported_country" in website_response.text or "VPN" in ios_response.text else True
