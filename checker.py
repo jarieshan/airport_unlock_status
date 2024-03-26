@@ -25,11 +25,6 @@ SYSTEM_PROXY = {
     "https": "socks5://127.0.0.1:7890"
 }
 
-HTTP_PROXY = {
-    "http": "http://127.0.0.1:7891",
-    "https": "http://127.0.0.1:7891"
-}
-
 
 def token_authenticator(request: Request):
     token = request.headers.get("Authorization")
@@ -45,16 +40,16 @@ def unlock_status_checker() -> dict:
     session.verify = False
 
     def __openai_status__() -> bool:
-        website_url = "https://api.openai.com/compliance/cookie_requirements"
+        # website_url = "https://api.openai.com/compliance/cookie_requirements"
         ios_url = "https://ios.chat.openai.com"
 
-        website_headers = {'authority': 'api.openai.com', 'accept': '*/*', 'accept-language': 'zh-CN,zh;q=0.9',
-                           'authorization': 'Bearer null', 'content-type': 'application/json',
-                           'origin': 'https://platform.openai.com', 'referer': 'https://platform.openai.com/',
-                           'sec-ch-ua': '"Microsoft Edge";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
-                           'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty',
-                           'sec-fetch-mode': 'cors', 'sec-fetch-site': 'same-site',
-                           'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0'}
+        # website_headers = {'authority': 'api.openai.com', 'accept': '*/*', 'accept-language': 'zh-CN,zh;q=0.9',
+        #                    'authorization': 'Bearer null', 'content-type': 'application/json',
+        #                    'origin': 'https://platform.openai.com', 'referer': 'https://platform.openai.com/',
+        #                    'sec-ch-ua': '"Microsoft Edge";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+        #                    'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty',
+        #                    'sec-fetch-mode': 'cors', 'sec-fetch-site': 'same-site',
+        #                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0'}
         ios_headers = {'authority': 'ios.chat.openai.com',
                        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                        'accept-language': 'zh-CN,zh;q=0.9',
@@ -65,14 +60,13 @@ def unlock_status_checker() -> dict:
                        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0'}
 
         try:
-            website_response = session.get(website_url, headers=website_headers, proxies=HTTP_PROXY)
+            # website_response = session.get(website_url, headers=website_headers, proxies=HTTP_PROXY)
             ios_response = session.get(ios_url, headers=ios_headers)
 
-            _unlock_status_ = False if "unsupported_country" in website_response.text or "VPN" in ios_response.text else True
-            logger.debug(
-                f"Website Response: {website_response.text}, IOS Response: {ios_response.text}, Unlock Status: {_unlock_status_}".replace(
-                    '\n', '\\n'))
+            # _unlock_status_ = False if "unsupported_country" in website_response.text or "VPN" in ios_response.text else True
+            # logger.debug(f"Website Response: {website_response.text}, IOS Response: {ios_response.text}, Unlock Status: {_unlock_status_}".replace('\n', '\\n'))
 
+            _unlock_status_ = False if "VPN" in ios_response.text else True
             return _unlock_status_
         except Exception as e:
             logger.error(f"OpenAI Status Check Error: {e}")
