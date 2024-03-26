@@ -36,6 +36,7 @@ def unlock_status_checker() -> dict:
     session = requests.Session()
     session.headers.update(USER_AGENT)
     session.proxies = SYSTEM_PROXY
+    session.verify = False
 
     def __openai_status__() -> bool:
         website_url = "https://api.openai.com/compliance/cookie_requirements"
