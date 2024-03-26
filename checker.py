@@ -1,11 +1,13 @@
 import json
+import datetime
 import requests
 
 from loguru import logger
 from fastapi import FastAPI, Request, HTTPException, Depends
 from apscheduler.schedulers.background import BackgroundScheduler
 
-logger.add("/var/logs/airport_unlock_status/{time}.log", rotation="1 day", retention="7 days", level="DEBUG")
+date = datetime.datetime.now().strftime("%Y-%m-%d")
+logger.add(f"/var/logs/airport_unlock_status/{date}.log", rotation="1 day", retention="7 days", level="DEBUG")
 
 app = FastAPI()
 
