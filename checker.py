@@ -1,4 +1,3 @@
-import ssl
 import json
 import datetime
 import requests
@@ -82,8 +81,7 @@ def unlock_status_checker() -> dict:
             return False
 
     unlock_result = {
-        "openai": __openai_status__(),
-        "claude": __claude_status__(),
+        "aiproxy": True if __openai_status__() and __claude_status__() else False,
     }
 
     logger.info(json.dumps(unlock_result))
